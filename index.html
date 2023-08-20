@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+       
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+           
+        background: linear-gradient(to right,rgba(245,245,245,.18),rgba(245,245,245,.18)),url(common-bg.svg);
+        background-position: center;
+       
+            background: #d2d2d2; 
+            
+        }
+        .home-hero__socials {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #efbf00;
+    box-shadow: rgba(100,100,111,.2) 0 7px 29px 0;
+    padding: 0.5rem;
+}
+.home-hero__social {
+    width: 3rem;
+}
+.home-hero__social:hover{
+    background:#fff;
+
+}
+
+    
+        .timer-container {
+            text-align: center;
+            padding: 40px 40px 40px 40px;
+            width: 800px;
+            margin-left:370px;
+            margin-top: 200px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #timer {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: black;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        .prof{
+    border-radius: 20px;
+    width:30px
+}
+.logo img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000;
+}
+.logo{
+    display: flex;
+    justify-content: space-evenly;
+   gap: 1200px;
+
+}
+.nav-container {
+    display: flex;
+   
+    align-items: center;
+    background: #efbf00; 
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 0px 0px 20px 20px;
+}
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #efbf00;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 0px 0px 20px 20px;
+}
+
+input{
+    border-radius: 60px black;
+    width :80px;
+    padding: 5px;
+}
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+            <div>  <h1>Santhana Krishnan countdown timer</h1></div>
+              
+              <div><img  class="prof" src="prof.jpeg" ></div>  
+            </div>
+        </div>
+    </nav>
+
+    <div class="home-hero__socials bounce">
+        <div class="home-hero__social">
+          <a href="https://www.linkedin.com/in/santhanakrishnan-v/" class="home-hero__social-icon-link" rel="noreferrer" target="_blank">
+            <img src="https://d33wubrfki0l68.cloudfront.net/d8e6e1e636531e28274a1b8b6d947b817f6145bd/d42d3/assets/svg/linkedin-dark.svg" alt="Santhanakrishnan Linkedin Profile" class="home-hero__social-icon">
+          </a>
+        </div>
+    
+        <div class="home-hero__social">
+          <a href="https://github.com/Santhanakrishnan2004" class="home-hero__social-icon-link" rel="noreferrer" target="_blank">
+            <img src="https://d33wubrfki0l68.cloudfront.net/38469cf88d038b6ba3322c9fcb93a8f7167df4b9/cb0b9/assets/svg/github-dark.svg" alt="Santhanakrishnan Github Profile" class="home-hero__social-icon">
+          </a>
+        </div>
+  
+        <div class="home-hero__social">
+          <a href="https://dev.to/santhanakrishnan2004" class="home-hero__social-icon-link" rel="noreferrer" target="_blank">
+            <img src="https://d33wubrfki0l68.cloudfront.net/e978c8491d93813aa00b3dc80b9abfb0d64a9086/3c187/assets/svg/book-dark.svg" alt="Santhanakrishnan DEV.to Blog Profile" class="home-hero__social-icon">
+          </a>
+        </div>
+      </div>
+    <div class="timer-container">
+        <div id="timer">00:00:00</div>
+        <input id="durationInput" type="number" min="1" step="1" value="5" placeholder="in minutes">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+    </div>
+    <script>
+        const timerDisplay = document.getElementById('timer');
+        const durationInput = document.getElementById('durationInput');
+        const startButton = document.getElementById('start');
+        const stopButton = document.getElementById('stop');
+        const resetButton = document.getElementById('reset');
+
+        let countdown;
+        let timeLeft = parseInt(durationInput.value) * 60;
+
+        function displayTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            timerDisplay.textContent = display;
+        }
+
+        function startTimer() {
+            clearInterval(countdown);
+            timeLeft = parseInt(durationInput.value) * 60;
+            displayTime(timeLeft);
+
+            countdown = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    displayTime(timeLeft);
+                } else {
+                    clearInterval(countdown);
+                    displayTime(0);
+                }
+            }, 1000);
+        }
+
+        startButton.addEventListener('click', () => {
+            startTimer();
+        });
+
+        stopButton.addEventListener('click', () => {
+            clearInterval(countdown);
+        });
+
+        resetButton.addEventListener('click', () => {
+            clearInterval(countdown);
+            timeLeft = 0; // Set time left to 0 when reset is clicked
+            displayTime(timeLeft);
+        });
+
+        durationInput.addEventListener('change', () => {
+            timeLeft = parseInt(durationInput.value) * 60;
+            displayTime(timeLeft);
+        });
+    </script>
+
+
+<footer>
+
+    <p style="justify-content:center ;margin-left: 700px;margin-top:220px ;">© Developed by santhanakrishnan V</p>
+</footer>
+</body>
+</html>
